@@ -6,6 +6,8 @@ from langchain.tools import DuckDuckGoSearchRun
 from langchain.agents import initialize_agent, Tool
 from langchain.callbacks import StreamlitCallbackHandler
 
+from langchain.tools import WikipediaQueryRun
+from langchain.utilities import WikipediaAPIWrapper
 
 
 st.set_page_config(page_title="ChatWeb", page_icon="🌐")
@@ -22,11 +24,17 @@ class ChatbotTools:
     def setup_agent(self):
         # Define tool
         ddg_search = DuckDuckGoSearchRun()
+        wiki_agent = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
         tools = [
             Tool(
                 name="DuckDuckGoSearch",
                 func=ddg_search.run,
                 description="Useful for when you need to answer questions about current events. You should ask targeted questions",
+            ),
+            Tool(
+                name="Wikipedia",
+                func=wiki_agent.run,
+                description="Useful for when you need to query about a specific topic, person, or event. You should ask targeted questions"
             )
         ]
 

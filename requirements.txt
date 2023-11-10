@@ -11,3 +11,4 @@ pypdf==3.16.4
 faiss-cpu==1.7.4
 chromadb
 youtube-transcript-api==0.6.1
+wikipedia
