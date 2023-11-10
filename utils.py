@@ -74,3 +74,7 @@ def configure_openai_api_key():
         st.error("Please add your OpenAI API key to continue.")
         st.stop()
     return openai_api_key
+
+def join_messages(role_list, role):
+    messages = [message["content"] for message in role_list if message["role"] == role]
+    return " ".join(messages)

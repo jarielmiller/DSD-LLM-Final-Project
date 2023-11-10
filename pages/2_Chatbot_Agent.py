@@ -9,6 +9,9 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain.tools import WikipediaQueryRun
 from langchain.utilities import WikipediaAPIWrapper
 
+from langchain.tools import PythonREPLTool
+
+from langchain.utilities import ArxivAPIWrapper
 
 st.set_page_config(page_title="ChatWeb", page_icon="🌐")
 st.header('Chatbot with Web Browser Access')
@@ -25,6 +28,9 @@ class ChatbotTools:
         # Define tool
         ddg_search = DuckDuckGoSearchRun()
         wiki_agent = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
+        python_repl = PythonREPLTool()
+        arxiv = ArxivAPIWrapper()
+
         tools = [
             Tool(
                 name="DuckDuckGoSearch",
@@ -34,8 +40,18 @@ class ChatbotTools:
             Tool(
                 name="Wikipedia",
                 func=wiki_agent.run,
-                description="Useful for when you need to query about a specific topic, person, or event. You should ask targeted questions"
-            )
+                description="Useful for when you need to query about a specific topic, person, or event. You should ask targeted questions",
+            ),
+            Tool(
+                name="Python REPL",
+                func=python_repl.run,
+                description="A Python shell. Use this to execute python commands. Input should be a valid python command. If you expect output it should be printed out.",
+            ),
+            Tool(
+                name="Arxiv",
+                func=arxiv.run,
+                description="Useful for when you need to answer questions about research papers, scientific articles, and preprints etc",
+            ),
         ]
 
         # Setup LLM and Agent
